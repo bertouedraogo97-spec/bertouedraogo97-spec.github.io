@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0D1117">
+<title>Mentor No Problème</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0D1117; --sur:#161B22; --sur2:#1C2330;
+  --gold:#C9A84C; --gl:#E8C96E; --gdim:rgba(201,168,76,.15);
+  --green:#2EA043; --gbub:#1E2A1E; --bbub:#1A2744;
+  --txt:#E6EDF3; --ts:#8B949E; --bor:rgba(201,168,76,.2);
+  --red:#F85149; --ora:#E3862A;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--txt);font-family:'Lato',sans-serif;
+  height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+
+/* HEADER */
+.hdr{background:var(--sur);border-bottom:1px solid var(--bor);
+  padding:10px 14px;display:flex;align-items:center;gap:10px;flex-shrink:0;z-index:10}
+.hav{width:42px;height:42px;border-radius:50%;
+  background:linear-gradient(135deg,#1E2A1E,#2A3F1E);
+  border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;
+  font-size:21px;flex-shrink:0;box-shadow:0 0 12px rgba(201,168,76,.25);position:relative}
+.sdot{position:absolute;bottom:1px;right:1px;width:10px;height:10px;border-radius:50%;
+  background:var(--green);border:2px solid var(--sur);animation:pg 2s infinite}
+@keyframes pg{0%,100%{box-shadow:0 0 0 0 rgba(46,160,67,.4)}50%{box-shadow:0 0 0 5px rgba(46,160,67,0)}}
+.hi{flex:1;min-width:0}
+.hnr{display:flex;align-items:center;gap:7px;margin-bottom:3px}
+.hn{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--gl);line-height:1}
+.pbadge{display:none;background:linear-gradient(135deg,var(--gold),var(--gl));
+  color:#0D1117;font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;letter-spacing:.5px}
+.pbadge.on{display:inline-block}
+.hs{font-size:11.5px;color:var(--green);font-weight:300}
+.cpill{display:flex;align-items:center;gap:5px;background:var(--sur2);
+  border:1px solid var(--bor);border-radius:20px;padding:5px 10px;
+  font-size:12px;color:var(--ts);flex-shrink:0;cursor:pointer;transition:all .2s}
+.cpill.warn{border-color:var(--ora);color:var(--ora)}
+.cpill.danger{border-color:var(--red);color:var(--red)}
+.cpill.prem{border-color:var(--gold);color:var(--gold);cursor:default}
+.pn{font-weight:700}
+.hbtn{background:none;border:none;color:var(--ts);font-size:18px;
+  cursor:pointer;padding:6px;border-radius:8px;transition:color .2s,background .2s}
+.hbtn:hover{color:var(--gold);background:var(--gdim)}
+
+/* MESSAGES */
+.msgs{flex:1;overflow-y:auto;padding:14px 12px;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth}
+.msgs::-webkit-scrollbar{width:3px}
+.msgs::-webkit-scrollbar-thumb{background:var(--bor);border-radius:2px}
+.ddiv{text-align:center;font-size:11px;color:var(--ts);padding:4px 0;font-weight:300;letter-spacing:.5px}
+.mr{display:flex;align-items:flex-end;gap:8px;animation:fu .3s ease forwards;opacity:0;transform:translateY(10px)}
+@keyframes fu{to{opacity:1;transform:translateY(0)}}
+.mr.u{flex-direction:row-reverse}
+.mav{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:15px;flex-shrink:0;border:1.5px solid var(--gold);
+  background:linear-gradient(135deg,#1E2A1E,#2A3F1E);box-shadow:0 0 8px rgba(201,168,76,.15)}
+.mav.ua{background:linear-gradient(135deg,#1A2744,#1E3560);border-color:#4A7EC0}
+.bw{max-width:75%;display:flex;flex-direction:column}
+.mr.u .bw{align-items:flex-end}
+.bub{padding:10px 14px;border-radius:18px;font-size:14.5px;line-height:1.55;word-break:break-word}
+.bub.m{background:var(--gbub);border:1px solid rgba(46,160,67,.3);border-bottom-left-radius:4px}
+.bub.u{background:var(--bbub);border:1px solid rgba(74,126,192,.3);border-bottom-right-radius:4px}
+.bub strong{color:var(--gl);font-weight:700}
+.bub em{color:var(--ts);font-style:italic}
+.mt{font-size:10px;color:var(--ts);margin-top:4px;padding:0 4px;font-weight:300}
+
+/* TYPING */
+.typ{display:none;align-items:flex-end;gap:8px}
+.typ.on{display:flex}
+.tb{background:var(--gbub);border:1px solid rgba(46,160,67,.3);
+  border-radius:18px;border-bottom-left-radius:4px;padding:12px 16px;display:flex;gap:5px;align-items:center}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:bo 1.2s infinite}
+.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
+@keyframes bo{0%,80%,100%{transform:translateY(0);opacity:.5}40%{transform:translateY(-6px);opacity:1}}
+
+/* WELCOME */
+.wcard{background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(201,168,76,.03));
+  border:1px solid var(--bor);border-radius:16px;padding:16px 14px;text-align:center}
+.wct{font-family:'Playfair Display',serif;font-size:17px;color:var(--gl);margin-bottom:5px}
+.wcs{font-size:13px;color:var(--ts);line-height:1.5}
+
+/* QUICK REPLIES */
+.qr{padding:8px 12px 4px;display:flex;gap:8px;overflow-x:auto;flex-shrink:0;scrollbar-width:none}
+.qr::-webkit-scrollbar{display:none}
+.qbtn{background:var(--sur2);border:1px solid var(--bor);color:var(--gl);
+  font-family:'Lato',sans-serif;font-size:12.5px;padding:7px 13px;border-radius:20px;
+  cursor:pointer;white-space:nowrap;transition:all .2s;flex-shrink:0}
+.qbtn:hover,.qbtn:active{background:var(--gdim);border-color:var(--gold);color:var(--gold);transform:scale(.97)}
+
+/* PROGRESS */
+.pgw{padding:6px 14px 2px;flex-shrink:0;display:none}
+.pgw.on{display:block}
+.pgl{font-size:11px;color:var(--ts);margin-bottom:5px;display:flex;justify-content:space-between}
+.pgl span:last-child{color:var(--gold);font-weight:700}
+.pgt{height:4px;background:var(--sur2);border-radius:4px;overflow:hidden}
+.pgf{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--green),var(--gold));transition:width .4s}
+.pgf.warn{background:linear-gradient(90deg,var(--ora),var(--red))}
+
+/* LIMIT BANNER */
+.lb{display:none;margin:6px 12px 4px;
+  background:linear-gradient(135deg,rgba(248,81,73,.12),rgba(248,81,73,.05));
+  border:1px solid rgba(248,81,73,.5);border-radius:14px;padding:14px 16px;flex-shrink:0}
+.lb.on{display:block}
+.lbt{font-size:14px;font-weight:700;color:#FF7B72;margin-bottom:6px}
+.lbs{font-size:12.5px;color:var(--ts);line-height:1.5;margin-bottom:12px}
+.lbs strong{color:var(--gl)}
+.subbtn{width:100%;background:linear-gradient(135deg,var(--gold),var(--gl));
+  color:#0D1117;border:none;border-radius:25px;padding:12px;font-family:'Lato',sans-serif;
+  font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(201,168,76,.35);
+  display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .15s}
+.subbtn:hover{transform:scale(1.02)}
+.subbtn:active{transform:scale(.97)}
+.clink{display:block;text-align:center;font-size:12px;color:var(--ts);
+  margin-top:8px;cursor:pointer;text-decoration:underline}
+.clink:hover{color:var(--gold)}
+.rnote{font-size:10.5px;color:var(--ts);text-align:center;padding:2px 0 6px;flex-shrink:0;display:none}
+
+/* INPUT */
+.ia{background:var(--sur);border-top:1px solid var(--bor);
+  padding:10px 12px;display:flex;align-items:flex-end;gap:10px;
+  flex-shrink:0;z-index:10;padding-bottom:max(10px,env(safe-area-inset-bottom))}
+.iw{flex:1;background:var(--bg);border:1.5px solid var(--bor);
+  border-radius:22px;padding:10px 16px;display:flex;align-items:flex-end;
+  transition:border-color .2s;min-height:44px}
+.iw:focus-within{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,.08)}
+.iw.off{opacity:.4;pointer-events:none}
+#ui{background:transparent;border:none;outline:none;color:var(--txt);
+  font-family:'Lato',sans-serif;font-size:15px;line-height:1.5;
+  resize:none;width:100%;max-height:100px;overflow-y:auto}
+#ui::placeholder{color:var(--ts)}
+.sbtn{width:46px;height:46px;border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),var(--gl));
+  border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;box-shadow:0 4px 12px rgba(201,168,76,.35);transition:transform .15s,opacity .2s}
+.sbtn:hover{transform:scale(1.06)}
+.sbtn:active{transform:scale(.94)}
+.sbtn.off{opacity:.35;pointer-events:none}
+.sbtn svg{width:20px;height:20px;fill:#0D1117}
+
+/* MODALS */
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(6px);
+  z-index:200;display:none;align-items:flex-start;justify-content:center;
+  padding:10px 10px 30px;overflow-y:auto}
+.ov.on{display:flex}
+.modal{background:var(--sur);border:1px solid var(--bor);border-radius:22px;
+  padding:20px 18px;max-width:390px;width:100%;text-align:center;
+  animation:fu .3s ease forwards;margin:auto;flex-shrink:0}
+.modal::-webkit-scrollbar{width:3px}
+.modal::-webkit-scrollbar-thumb{background:rgba(201,168,76,.3);border-radius:3px}
+
+/* PAYWALL */
+.mbadge{display:inline-flex;align-items:center;gap:6px;border-radius:20px;
+  padding:4px 12px;font-size:11px;font-weight:700;letter-spacing:1px;
+  text-transform:uppercase;margin-bottom:10px}
+.mbadge.grn{background:linear-gradient(135deg,rgba(46,160,67,.2),rgba(46,160,67,.06));
+  border:1px solid rgba(46,160,67,.5);color:#4ADE80}
+.mbadge.adm{background:linear-gradient(135deg,rgba(201,168,76,.2),rgba(201,168,76,.08));
+  border:1px solid var(--gold);color:var(--gold)}
+.mtitle{font-family:'Playfair Display',serif;font-size:19px;color:var(--gl);margin-bottom:6px}
+.msub{font-size:13px;color:var(--ts);line-height:1.5;margin-bottom:14px}
+.msub strong{color:var(--txt)}
+
+/* MANUAL CARD */
+.mcard{background:linear-gradient(135deg,rgba(46,160,67,.1),rgba(46,160,67,.03));
+  border:1.5px solid rgba(46,160,67,.35);border-radius:13px;padding:12px;margin-bottom:12px;text-align:left}
+.mcard-t{font-size:12px;font-weight:700;color:#4ADE80;margin-bottom:8px}
+.mstep{display:flex;gap:8px;align-items:flex-start;margin-bottom:7px}
+.msn{width:20px;height:20px;border-radius:50%;background:var(--green);
+  color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.mst{font-size:13px;color:var(--ts);line-height:1.45}
+.mst strong{color:var(--txt)}
+.cnum{color:var(--gl);font-weight:700;cursor:pointer;text-decoration:underline dotted}
+.cnum:hover{color:var(--gold)}
+
+/* WHATSAPP BTN */
+.wabtn{width:100%;background:linear-gradient(135deg,#25D366,#128C7E);
+  color:#fff;border:none;border-radius:22px;padding:12px;font-family:'Lato',sans-serif;
+  font-size:14px;font-weight:700;cursor:pointer;margin-bottom:10px;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  box-shadow:0 4px 14px rgba(37,211,102,.3);transition:transform .15s}
+.wabtn:hover{transform:scale(1.02)}
+.wabtn:active{transform:scale(.97)}
+
+/* MODAL LINKS */
+.ml{font-size:12px;color:var(--ts);cursor:pointer;text-decoration:underline;display:block;margin-bottom:8px}
+.ml:hover{color:var(--txt)}
+
+/* UNLOCK */
+.ulrow{display:flex;gap:8px;margin-bottom:10px}
+.ulinp{flex:1;background:var(--bg);border:1.5px solid var(--bor);border-radius:12px;
+  padding:11px 14px;font-family:'Lato',sans-serif;font-size:14px;color:var(--txt);
+  outline:none;transition:border-color .2s}
+.ulinp:focus{border-color:var(--gold)}
+.ulinp::placeholder{color:var(--ts)}
+.ulbtn{background:linear-gradient(135deg,var(--gold),var(--gl));color:#0D1117;
+  border:none;border-radius:12px;padding:11px 16px;font-family:'Lato',sans-serif;
+  font-size:14px;font-weight:700;cursor:pointer;transition:transform .15s;min-width:44px}
+.ulbtn:hover{transform:scale(1.03)}
+.ulerr{font-size:12px;color:var(--red);margin-bottom:10px;display:none}
+.ulerr.on{display:block}
+
+/* GENERATOR */
+.gsec{background:var(--sur2);border:1px solid var(--bor);
+  border-radius:13px;padding:13px;margin-bottom:12px;text-align:left}
+.glbl{font-size:11px;color:var(--ts);margin-bottom:6px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.5px}
+.ginp{width:100%;background:var(--bg);border:1.5px solid var(--bor);
+  border-radius:10px;padding:10px 13px;font-family:'Lato',sans-serif;
+  font-size:14px;color:var(--txt);outline:none;transition:border-color .2s;margin-bottom:8px}
+.ginp:focus{border-color:var(--gold)}
+.ginp::placeholder{color:var(--ts)}
+.gbtn{width:100%;background:linear-gradient(135deg,var(--gold),var(--gl));
+  color:#0D1117;border:none;border-radius:22px;padding:11px;font-family:'Lato',sans-serif;
+  font-size:14px;font-weight:700;cursor:pointer;transition:transform .15s}
+.gbtn:hover{transform:scale(1.02)}
+.gbtn:active{transform:scale(.97)}
+.gresult{background:var(--bg);border:1.5px solid rgba(46,160,67,.4);
+  border-radius:12px;padding:14px;margin-top:10px;display:none;text-align:left}
+.gresult.on{display:block}
+.gcode{font-family:'Playfair Display',serif;font-size:20px;color:var(--gl);
+  font-weight:700;letter-spacing:2px;display:block;margin-bottom:8px;text-align:center}
+.ghash{font-size:10px;color:var(--ts);word-break:break-all;line-height:1.5;
+  background:var(--sur);padding:8px 10px;border-radius:8px;cursor:pointer}
+.ghash:hover{color:var(--gl)}
+.gbtns{display:flex;gap:8px;margin-top:10px}
+.gcpbtn{flex:1;background:linear-gradient(135deg,var(--green),#1a7a2e);
+  color:#fff;border:none;border-radius:10px;padding:9px;font-family:'Lato',sans-serif;
+  font-size:13px;font-weight:700;cursor:pointer;transition:transform .15s}
+.gcpbtn:hover{transform:scale(1.02)}
+.gwabtn{flex:1;background:linear-gradient(135deg,#25D366,#128C7E);
+  color:#fff;border:none;border-radius:10px;padding:9px;font-family:'Lato',sans-serif;
+  font-size:13px;font-weight:700;cursor:pointer;transition:transform .15s}
+.gwabtn:hover{transform:scale(1.02)}
+.ginfo{font-size:11px;color:var(--ts);margin-top:8px;line-height:1.5;
+  background:rgba(201,168,76,.06);border:1px solid var(--bor);
+  border-radius:8px;padding:8px 10px;text-align:left}
+.ginfo strong{color:var(--gold)}
+
+/* TOAST */
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);
+  background:var(--green);color:#fff;padding:8px 20px;border-radius:20px;
+  font-size:13px;font-weight:700;opacity:0;transition:opacity .3s;z-index:300;pointer-events:none}
+.toast.on{opacity:1}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hav">🧠<span class="sdot"></span></div>
+  <div class="hi">
+    <div class="hnr">
+      <div class="hn">Mentor No Problème</div>
+      <span class="pbadge" id="pbadge">PREMIUM</span>
+    </div>
+    <div class="hs" id="hstat">● En ligne — prêt à t'aider</div>
+  </div>
+  <div class="cpill" id="cpill" onclick="openPW()" title="Messages restants">
+    <span>💬</span><span class="pn" id="pn">5/5</span>
+  </div>
+  <button class="hbtn" onclick="openGen()" title="Générer un code client">🔑</button>
+  <button class="hbtn" onclick="clearChat()" title="Nouvelle conversation">🔄</button>
+</div>
+
+<!-- MESSAGES -->
+<div class="msgs" id="msgs">
+  <div class="ddiv">Aujourd'hui</div>
+  <div class="wcard">
+    <div class="wct">Bienvenue 👋</div>
+    <div class="wcs">Je suis ton Mentor No Problème. Relations, argent, conflits, décisions difficiles — je t'aide à voir clair et agir vite.</div>
+  </div>
+  <div class="mr">
+    <div class="mav">🧠</div>
+    <div class="bw">
+      <div class="bub m"><strong>Explique-moi clairement ta situation en une phrase.</strong><br><br>Je suis ici pour t'aider — pas pour te juger. Parle-moi de ce qui te pèse : couple, famille, argent, décision difficile... Je vais t'analyser ça et te donner un plan concret. 💪</div>
+      <div class="mt" id="wt"></div>
+    </div>
+  </div>
+  <div class="typ" id="typ">
+    <div class="mav">🧠</div>
+    <div class="tb"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+  </div>
+</div>
+
+<!-- QUICK REPLIES -->
+<div class="qr" id="qr">
+  <button class="qbtn" onclick="sq('Mon couple ne va pas bien 💔')">💔 Couple</button>
+  <button class="qbtn" onclick="sq('Je suis bloqué financièrement 💸')">💸 Argent</button>
+  <button class="qbtn" onclick="sq('Conflit familial grave 👨‍👩‍👧')">👨‍👩‍👧 Famille</button>
+  <button class="qbtn" onclick="sq('Je dois prendre une décision difficile 🤔')">🤔 Décision</button>
+  <button class="qbtn" onclick="sq('Mon partenaire me manque de respect 😤')">😤 Respect</button>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="pgw" id="pgw">
+  <div class="pgl"><span>Messages gratuits aujourd'hui</span><span id="pgr">5 restants</span></div>
+  <div class="pgt"><div class="pgf" id="pgf" style="width:100%"></div></div>
+</div>
+
+<!-- LIMIT BANNER -->
+<div class="lb" id="lb">
+  <div class="lbt">🔒 Limite atteinte pour aujourd'hui</div>
+  <div class="lbs">Tu as utilisé tes <strong>5 messages gratuits</strong> d'aujourd'hui.<br>Envoie <strong>1 500 FCFA</strong> et reçois un code pour des messages illimités.</div>
+  <button class="subbtn" onclick="openPW()">📲 S'abonner — 1 500 FCFA/mois</button>
+  <span class="clink" onclick="openUL()">J'ai déjà un code d'accès</span>
+</div>
+<div class="rnote" id="rnote">⏰ Tes messages gratuits se réinitialisent à minuit</div>
+
+<!-- INPUT -->
+<div class="ia">
+  <div class="iw" id="iw">
+    <textarea id="ui" placeholder="Décris ta situation ici..." rows="1"></textarea>
+  </div>
+  <button class="sbtn" id="sb" onclick="sendMsg()">
+    <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+  </button>
+</div>
+
+<!-- ══ MODAL PAIEMENT MANUEL ══ -->
+<div class="ov" id="pw">
+  <div class="modal">
+    <div class="mbadge grn">💰 PAIEMENT DIRECT · 0% FRAIS</div>
+    <div style="font-size:38px;margin:8px 0">📲</div>
+    <div class="mtitle">S'abonner — 1 500 FCFA/mois</div>
+    <div class="msub">Messages <strong>illimités</strong> chaque jour · Réponses complètes · Activation sous 1h</div>
+
+    <div class="mcard">
+      <div class="mcard-t">📋 Comment payer :</div>
+      <div class="mstep">
+        <div class="msn">1</div>
+        <div class="mst">Envoie <strong>1 500 FCFA</strong> sur :<br>
+          <span class="cnum" onclick="copyNum()">
+            📱 <strong id="onum">+226 74886951</strong> (Orange Money)<br>
+            📱 <strong>+226 62821218</strong> (Moov Money)<br>
+            <em style="font-size:11px;color:var(--gold)">👆 Appuie pour copier le n° Orange</em>
+          </span>
+        </div>
+      </div>
+      <div class="mstep">
+        <div class="msn">2</div>
+        <div class="mst">Note ta <strong>référence de transaction</strong></div>
+      </div>
+      <div class="mstep">
+        <div class="msn">3</div>
+        <div class="mst">Envoie la référence + ton prénom par <strong>WhatsApp</strong> ↓</div>
+      </div>
+      <div class="mstep">
+        <div class="msn">4</div>
+        <div class="mst">Reçois ton <strong>code d'accès sous 1h</strong> ⏰ (8h – 22h)</div>
+      </div>
+    </div>
+
+    <button class="wabtn" onclick="waJustif()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Envoyer le justificatif WhatsApp
+    </button>
+    <span class="ml" onclick="openUL()">✅ J'ai déjà mon code → l'entrer ici</span>
+    <span class="ml" onclick="closePW()">Fermer</span>
+  </div>
+</div>
+
+<!-- ══ MODAL CODE D'ACCÈS ══ -->
+<div class="ov" id="ulm">
+  <div class="modal">
+    <div style="font-size:40px;margin-bottom:10px">🔓</div>
+    <div class="mtitle">Entrer ton code d'accès</div>
+    <div class="msub">Entre le code reçu par WhatsApp après ton paiement.</div>
+    <div class="ulrow">
+      <input class="ulinp" id="ulinp" type="text" placeholder="Ex: MNP-KOFI-2025" maxlength="25">
+      <button class="ulbtn" id="ulbtn" onclick="checkCode()">✓</button>
+    </div>
+    <div class="ulerr" id="ulerr">❌ Code invalide. Vérifie et réessaie.</div>
+    <span class="ml" onclick="closeUL()">Annuler</span>
+  </div>
+</div>
+
+<!-- ══ MODAL GÉNÉRATEUR DE CODES (ADMIN) ══ -->
+<div class="ov" id="genm">
+  <div class="modal">
+    <div class="mbadge adm">🔑 ADMIN — GÉNÉRATEUR</div>
+    <div style="font-size:34px;margin:8px 0">⚙️</div>
+    <div class="mtitle" style="font-size:17px">Générer un code client</div>
+    <div class="msub">Pour chaque client qui paie, génère un code unique et envoie-le par WhatsApp.</div>
+
+    <div class="gsec">
+      <div class="glbl">Prénom du client</div>
+      <input class="ginp" id="gname" type="text" placeholder="Ex: Kofi, Amara, Ibrahim..." maxlength="20">
+      <button class="gbtn" onclick="genCode()">⚡ Générer le code</button>
+    </div>
+
+    <div class="gresult" id="gres">
+      <span class="gcode" id="gcode"></span>
+      <div class="glbl" style="margin-bottom:4px">Hash SHA-256 (à coller dans CODE_HASHES) :</div>
+      <div class="ghash" id="ghash" onclick="copyHash()" title="Appuie pour copier le hash"></div>
+      <div class="gbtns">
+        <button class="gcpbtn" onclick="copyCode()">📋 Copier le code</button>
+        <button class="gwabtn" onclick="waCode()">📲 Envoyer WhatsApp</button>
+      </div>
+      <div class="ginfo">
+        ⚠️ <strong>Important :</strong> Copie le hash ci-dessus et colle-le dans la liste <strong>CODE_HASHES</strong> du fichier HTML. Sans ça, le code ne fonctionnera pas !<br><br>
+        💡 Tu peux aussi générer le hash sur :<br>
+        <strong>emn178.github.io/online-tools/sha256.html</strong>
+      </div>
+    </div>
+
+    <span class="ml" onclick="closeGen()">Fermer</span>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════════════
+// ⚙️ CONFIG — MODIFIE CES VALEURS
+// ══════════════════════════════════════════════════
+
+// 🔐 URL backend Render.com (après déploiement)
+const GROQ_KEY = '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';
+
+// 📱 Ton numéro WhatsApp (format international sans +)
+const WA_NUM = '22674886951';
+
+// 🔐 Hashes SHA-256 des codes Premium valides
+// Pour ajouter un code : génère-le avec le bouton 🔑, copie le hash ici
+const CODE_HASHES = [
+  'dcf3c156f433f3eb93b9c9d685975c240436537695181a5fed56c6fd474c505f',
+  '557de1b94674671e2070d30394e36373a4e43f432b9d8ef37edc38d75bbbd837',
+  '1d2d6aca71a9ff7deed2a5c5d1fca3077d162b6f565da09e26246f19b61bcba5',
+  '7dc40f96e93835dadb7125753aeda2e85551db11d663b0bfd00528578f3ebfda',
+];
+
+const FREE_MAX = 5;
+const SK_C = 'mnp_cnt', SK_D = 'mnp_date', SK_P = 'mnp_prem';
+
+const SYS = `Tu es Mentor No Problème, un expert de haut niveau en résolution de problèmes humains complexes avec plus de 20 ans d'expérience terrain dans :
+- Relations de couple
+- Gestion de conflits familiaux
+- Problèmes d'argent et décisions financières
+- Psychologie pratique (non théorique)
+- Négociation et communication réelle
+- Stratégies de sortie de crise
+
+Tu ne donnes PAS de conseils vagues. Tu proposes des solutions concrètes, applicables immédiatement, adaptées à un contexte réel (Afrique, ressources limitées, pression sociale).
+
+À chaque problème utilisateur, tu dois TOUJOURS suivre cette structure exacte :
+
+1. 🔍 DIAGNOSTIC RAPIDE
+- Résume le vrai problème caché (pas juste ce que la personne dit)
+- Identifie : émotion dominante, blocage principal, erreur de perception éventuelle
+
+2. ⚠️ VÉRITÉ BRUTALE (SI NÉCESSAIRE)
+- Dis clairement ce que la personne évite de voir
+- Sans être insultant, mais sans adoucir la réalité
+
+3. 🧩 PLAN D'ACTION CONCRET
+Donne un plan en 3 à 5 étapes MAX :
+- Action simple
+- Action stratégique
+- Action psychologique
+- Action de communication (si relation)
+
+4. 🗣️ SCRIPT PRÊT À UTILISER
+Donne EXACTEMENT quoi dire (mot pour mot) si la situation implique une discussion.
+
+5. 🚫 ERREURS À ÉVITER
+Liste 3 erreurs critiques que la personne pourrait faire
+
+6. 🔁 OPTION AVANCÉE
+Donne une stratégie alternative pour une situation plus difficile
+
+STYLE : Clair, direct, terrain. Pas de jargon. Exemples concrets africains si possible.
+RÈGLES : Ne jamais juger. Jamais de solutions irréalistes. Toujours adapter aux ressources limitées.
+Si le problème n'est pas clair, pose MAXIMUM 3 questions précises avant de répondre.
+Réponds toujours en français.`;
+
+// ══════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════
+let hist=[], loading=false, isPrem=false, cnt=0;
+let lastCode='', lastHash='';
+
+// INIT
+(function(){
+  document.getElementById('wt').textContent = gt();
+  isPrem = localStorage.getItem(SK_P)==='true';
+  const today = tod();
+  if(localStorage.getItem(SK_D)!==today){
+    cnt=0; localStorage.setItem(SK_D,today); localStorage.setItem(SK_C,'0');
+  } else { cnt=parseInt(localStorage.getItem(SK_C)||'0'); }
+  updateUI(); scrollB();
+})();
+
+function tod(){ return new Date().toISOString().slice(0,10); }
+function gt(){ return new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}); }
+function rem(){ return isPrem ? Infinity : Math.max(0,FREE_MAX-cnt); }
+function saveC(){ localStorage.setItem(SK_C,String(cnt)); localStorage.setItem(SK_D,tod()); }
+
+// ── UPDATE UI ──
+function updateUI(){
+  const r=rem();
+  const pill=document.getElementById('cpill');
+  const pn=document.getElementById('pn');
+  const pgw=document.getElementById('pgw');
+  const pgf=document.getElementById('pgf');
+  const pgr=document.getElementById('pgr');
+  const lb=document.getElementById('lb');
+  const rn=document.getElementById('rnote');
+  const iw=document.getElementById('iw');
+  const sb=document.getElementById('sb');
+  const pb=document.getElementById('pbadge');
+  const hs=document.getElementById('hstat');
+
+  if(isPrem){
+    pill.className='cpill prem'; pn.textContent='∞ illimité';
+    pgw.classList.remove('on'); lb.classList.remove('on');
+    rn.style.display='none'; pb.classList.add('on');
+    hs.textContent='● Premium — messages illimités';
+    iw.classList.remove('off'); sb.classList.remove('off');
+    return;
+  }
+  pb.classList.remove('on');
+  hs.textContent="● En ligne — prêt à t'aider";
+  pn.textContent=r+'/'+FREE_MAX;
+  pill.className = r===0 ? 'cpill danger' : r<=2 ? 'cpill warn' : 'cpill';
+
+  if(cnt>0){
+    pgw.classList.add('on');
+    pgf.style.width=Math.max(0,(r/FREE_MAX)*100)+'%';
+    pgf.className = r<=2 ? 'pgf warn' : 'pgf';
+    pgr.textContent = r===1 ? '1 restant' : r+' restants';
+  } else { pgw.classList.remove('on'); }
+
+  if(r===0){
+    lb.classList.add('on'); rn.style.display='block';
+    iw.classList.add('off'); sb.classList.add('off');
+  } else {
+    lb.classList.remove('on'); rn.style.display='none';
+    iw.classList.remove('off'); sb.classList.remove('off');
+  }
+}
+
+// ── INPUT ──
+const inp=document.getElementById('ui');
+inp.addEventListener('input',()=>{
+  inp.style.height='auto';
+  inp.style.height=Math.min(inp.scrollHeight,100)+'px';
+});
+inp.addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}
+});
+
+// ── SEND MSG ──
+async function sendMsg(txt){
+  const text=txt||inp.value.trim();
+  if(!text||loading) return;
+  if(!isPrem&&rem()<=0){openPW();return;}
+  if(hist.length===0) document.getElementById('qr').style.display='none';
+  addMsg('u',text);
+  hist.push({role:'user',content:text});
+  inp.value=''; inp.style.height='auto';
+  if(!isPrem){
+    cnt++; saveC(); updateUI();
+    if(rem()===1) setTimeout(()=>sysMsg('⚠️ Il te reste 1 dernier message gratuit aujourd\'hui.'),300);
+  }
+  showTyp(true); loading=true;
+  try{
+    const res=await fetch('https://corsproxy.io/?https://api.groq.com/openai/v1/chat/completions',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'Authorization':'Bearer '+GROQ_KEY
+      },
+      body:JSON.stringify({
+        model:'llama-3.3-70b-versatile',
+        max_tokens:1024,
+        messages:[{role:'system',content:SYS},...hist.slice(-10)]
+      })
+    });
+    if(!res.ok) throw new Error('Erreur serveur');
+    const d=await res.json();
+    const reply=d.choices&&d.choices[0]?d.choices[0].message.content:"Je n'ai pas pu répondre. Réessaie.";
+    hist.push({role:'assistant',content:reply});
+    showTyp(false); addMsg('m',reply);
+  }catch(e){
+    showTyp(false);
+    addMsg('m','⚠️ Erreur de connexion. Vérifie internet et réessaie.');
+  }
+  loading=false;
+}
+function sq(t){sendMsg(t);}
+
+// ── MESSAGES ──
+function addMsg(role,text){
+  const c=document.getElementById('msgs');
+  const ty=document.getElementById('typ');
+  const row=document.createElement('div');
+  row.className='mr'+(role==='u'?' u':'');
+  const av=document.createElement('div');
+  av.className='mav'+(role==='u'?' ua':'');
+  av.textContent=role==='u'?'👤':'🧠';
+  const bw=document.createElement('div'); bw.className='bw';
+  const bl=document.createElement('div');
+  bl.className='bub '+(role==='u'?'u':'m');
+  bl.innerHTML=fmt(text);
+  const mt=document.createElement('div'); mt.className='mt'; mt.textContent=gt();
+  bw.appendChild(bl); bw.appendChild(mt);
+  row.appendChild(av); row.appendChild(bw);
+  c.insertBefore(row,ty); scrollB();
+}
+function sysMsg(text){
+  const c=document.getElementById('msgs');
+  const ty=document.getElementById('typ');
+  const d=document.createElement('div');
+  d.className='ddiv';
+  d.style.cssText='color:var(--ora);font-size:12px;padding:6px 10px;background:rgba(227,134,42,.08);border-radius:8px;border:1px solid rgba(227,134,42,.2)';
+  d.textContent=text;
+  c.insertBefore(d,ty); scrollB();
+}
+function fmt(t){
+  return t.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+           .replace(/\*(.+?)\*/g,'<em>$1</em>')
+           .replace(/\n/g,'<br>');
+}
+function showTyp(s){
+  const e=document.getElementById('typ');
+  s?e.classList.add('on'):e.classList.remove('on');
+  if(s)scrollB();
+}
+function scrollB(){
+  const c=document.getElementById('msgs');
+  setTimeout(()=>c.scrollTo({top:c.scrollHeight,behavior:'smooth'}),50);
+}
+
+// ── CLEAR ──
+function clearChat(){
+  if(!confirm("Nouvelle conversation ? L'historique sera effacé.")) return;
+  hist=[];
+  document.getElementById('qr').style.display='flex';
+  const c=document.getElementById('msgs');
+  Array.from(c.children).forEach(el=>{
+    if(!el.classList.contains('ddiv')&&!el.classList.contains('wcard')&&el.id!=='typ') el.remove();
+  });
+  const ty=document.getElementById('typ');
+  const r=document.createElement('div'); r.className='mr';
+  r.innerHTML=`<div class="mav">🧠</div><div class="bw"><div class="bub m"><strong>Explique-moi clairement ta situation en une phrase.</strong><br><br>Je suis ici pour t'aider — pas pour te juger. 💪</div><div class="mt">${gt()}</div></div>`;
+  c.insertBefore(r,ty); scrollB(); updateUI();
+}
+
+// ══ PAYWALL ══
+function openPW(){document.getElementById('pw').classList.add('on');}
+function closePW(){document.getElementById('pw').classList.remove('on');}
+
+// ══ UNLOCK ══
+function openUL(){closePW();document.getElementById('ulm').classList.add('on');document.getElementById('ulinp').value='';document.getElementById('ulerr').classList.remove('on');}
+function closeUL(){document.getElementById('ulm').classList.remove('on');}
+
+// SHA-256
+async function sha256(str){
+  const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+
+async function checkCode(){
+  const code=document.getElementById('ulinp').value.trim().toUpperCase();
+  const err=document.getElementById('ulerr');
+  const btn=document.getElementById('ulbtn');
+  if(!code){err.classList.add('on');return;}
+  btn.textContent='⏳'; btn.disabled=true;
+  const hash=await sha256(code);
+  btn.textContent='✓'; btn.disabled=false;
+
+  let valid=false;
+  try{
+    const r=await fetch(BACKEND+'/api/verify-code',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({hash})});
+    const d=await r.json(); valid=d.valid===true;
+  }catch(e){ valid=CODE_HASHES.includes(hash); }
+
+  if(valid){
+    isPrem=true; localStorage.setItem(SK_P,'true');
+    closeUL(); updateUI();
+    addMsg('m','🎉 **Félicitations ! Ton accès Premium est activé.**\n\nTu as maintenant des messages illimités chaque jour. Continue, je suis là pour toi ! 💪');
+  } else {
+    err.classList.add('on');
+    document.getElementById('ulinp').style.borderColor='var(--red)';
+    setTimeout(()=>{document.getElementById('ulinp').style.borderColor='';err.classList.remove('on');},3000);
+  }
+}
+document.getElementById('ulinp').addEventListener('keydown',e=>{if(e.key==='Enter')checkCode();});
+
+// ══ GÉNÉRATEUR DE CODES ══
+function openGen(){document.getElementById('genm').classList.add('on');document.getElementById('gname').value='';document.getElementById('gres').classList.remove('on');}
+function closeGen(){document.getElementById('genm').classList.remove('on');}
+
+async function genCode(){
+  const name=document.getElementById('gname').value.trim().toUpperCase();
+  if(!name){showToast('⚠️ Entre un prénom');return;}
+  const ts=Date.now().toString(36).toUpperCase();
+  const code='MNP-'+name.slice(0,8)+'-'+ts;
+  const hash=await sha256(code);
+  lastCode=code; lastHash=hash;
+  document.getElementById('gcode').textContent=code;
+  document.getElementById('ghash').textContent=hash;
+  document.getElementById('gres').classList.add('on');
+}
+
+function copyCode(){
+  navigator.clipboard.writeText(lastCode).then(()=>showToast('✅ Code copié !'));
+}
+function copyHash(){
+  navigator.clipboard.writeText("'"+lastHash+"',").then(()=>showToast('✅ Hash copié !'));
+}
+function waCode(){
+  if(!lastCode) return;
+  const msg=encodeURIComponent('🎉 Ton accès Mentor No Problème est activé !\n\nTon code : *'+lastCode+'*\n\n1. Ouvre l\'app\n2. Clique "J\'ai un code"\n3. Entre ce code\n\nMessages illimités activés ! 🧠');
+  window.open('https://wa.me/?text='+msg,'_blank');
+}
+
+// ══ COPY NUMBER ══
+function copyNum(){
+  const num='+226 74886951';
+  navigator.clipboard.writeText(num).then(()=>showToast('✅ Numéro copié !'))
+  .catch(()=>{
+    const ta=document.createElement('textarea');
+    ta.value=num; document.body.appendChild(ta);
+    ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast('✅ Numéro copié !');
+  });
+}
+
+// ══ WHATSAPP JUSTIFICATIF ══
+function waJustif(){
+  const msg=encodeURIComponent('Bonjour ! Je viens de payer pour Mentor No Problème.\n\nMon prénom : [ton prénom]\nMa référence : [ta référence de transaction]\n\nMerci 🙏');
+  window.open('https://wa.me/'+WA_NUM+'?text='+msg,'_blank');
+}
+
+// ══ TOAST ══
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('on');
+  setTimeout(()=>t.classList.remove('on'),2500);
+}
+
+// Close modals on backdrop
+['pw','ulm','genm'].forEach(id=>{
+  document.getElementById(id).addEventListener('click',function(e){
+    if(e.target===this) this.classList.remove('on');
+  });
+});
+
+scrollB();
+</script>
+</body>
+</html>
